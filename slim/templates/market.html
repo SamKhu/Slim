@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title%}
+   Market
+{% endblock %}
+
+{% block content %}
+<br>
+   <div class="row" style="margin-top:20px; margin-left:20px">
+      <div class="col-8">
+          <h2>Доступные к заказу программы</h2>
+          <br>
+
+         <table class="table table-hover table-grey">
+            <thead>
+               <tr>
+                  <!-- Your Columns HERE -->
+                  <th scope="col">ID</th>
+                  <th scope="col">Программа</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Заказать</th>
+               </tr>
+            </thead>
+            <tbody>
+               <!-- Your rows inside the table HERE: -->
+               {% for item in items %}
+
+                  <tr>
+                     <td>{{ item.id }}</td>
+                     <td>{{ item.name }}</td>
+                     <td>{{ item.price }} руб</td>
+                     <td>
+                        <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
+                        <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Purchase this Item</button>
+                     </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+   </div>
+
+{% endblock %}
