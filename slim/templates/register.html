@@ -15,16 +15,24 @@ Register Page
             <br>
 
             {{ form.user_name.label() }}
-            {{ form.user_name(class="form-control", placeholder="User Name") }}
+            {{ form.user_name(class="form-control", placeholder="Имя пользователя") }}
 
             {{ form.email.label() }}
-            {{ form.email(class="form-control", placeholder="Email Adress") }}
+            {{ form.email(class="form-control", placeholder="Электронная почта") }}
 
             {{ form.password_1.label() }}
-            {{ form.password_1(class="form-control", placeholder="Password") }}
+            {{ form.password_1(class="form-control", placeholder="Пароль") }}
 
             {{ form.password_2.label() }}
-            {{ form.password_2(class="form-control", placeholder="Confirm Password") }}
+            {{ form.password_2(class="form-control", placeholder="Подтвердить пароль") }}
+            <br>
+            <div class="checkbox mb-4">
+                <h6>Уже зарегестрированы?</h6>
+                <a class="btn btn-md btn-secondary" href="{{ url_for('login_page') }}">
+                    Авторизация
+                </a>
+            </div>
+
             <br>
             <div class="d-grid gap-2">
             {{ form.submit(class="btn btn-primary") }}

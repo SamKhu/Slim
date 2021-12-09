@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Вход
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <form method="POST" class="form-signin" style="color:black">
+            {{ form.hidden_tag() }}
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">
+                Пожалуйста, авторизуйтесь
+            </h1>
+            <br>
+
+            {{ form.user_name.label() }}
+            {{ form.user_name(class="form-control", placeholder="Введите имя пользователя") }}
+
+            {{ form.password.label() }}
+            {{ form.password(class="form-control", placeholder="Введите пароль") }}
+            <br>
+            <div class="checkbox mb-3">
+                <h6>Ещё не зарегистрированы?</h6>
+                <a class="btn btn-md btn-secondary" href="{{ url_for('register_page') }}">
+                    Регистрация
+                </a>
+            </div>
+
+            <div class="d-grid gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+            </div>
+
+        </form>
+    </div>
+</body>
+{% endblock %}

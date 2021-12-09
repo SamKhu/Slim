@@ -1,7 +1,8 @@
 from slim import app, db
 from flask import render_template, redirect, url_for, flash
 from slim.models import Item, User
-from slim.forms import RegisterForm
+from slim.forms import RegisterForm, LoginForm
+from flask_login import login_user
 
 @app.route("/")
 @app.route("/home")
@@ -33,3 +34,19 @@ def register_page():
             flash(f'Произошла ошибка при создании учетной записи: {err_msg}', category='danger')
 
     return render_template("register.html", form=form)
+
+@app.route("/login", methods=['GET', 'POST'])
+def login_page():
+    form=LoginForm()
+    if form.validate_on_submit():
+        attempted_user=User.query.filter_by(username=form.user_name.data).first()
+        if attempted_user and attempted_user.check_password_correction(
+                attempted_password=form.password.data
+        ):
+            login_user(attempted_user)
+            flash(f'Вы успешно  авторизовались, как {attempted_user.username}', category='success')
+            return redirect(url_for('market_page'))
+    else:
+        flash('Неудачная авторизация', category='danger')
+
+    return render_template("login.html", form=form)
