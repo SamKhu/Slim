@@ -38,9 +38,38 @@
             </tbody>
          </table>
       </div>
-      <div class="col-4">
-         <h2>Активные программы</h2>
 
+
+      <div class="col-4">
+          <h2>Активированные программы</h2>
+          <br>
+
+         <table class="table table-hover table-grey">
+            <thead>
+               <tr>
+                  <!-- Your Columns HERE -->
+                  <th scope="col">ID</th>
+                  <th scope="col">Программа</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Заказать</th>
+               </tr>
+            </thead>
+            <tbody>
+               <!-- Your rows inside the table HERE: -->
+
+               {% for owned_item in owned_items %}
+               {% include 'includes/owned_items_modals.html' %}
+                  <tr>
+                     <td>{{ owned_item.id }}</td>
+                     <td>{{ owned_item.name }}</td>
+                     <td>{{ owned_item.price }} руб</td>
+                     <td>
+                        <button class="btn btn-outline btn-danger" data-bs-toggle="modal" data-bs-target="#Modal-SellingConfirm-{{ owned_item.id }}">Вернуть</button>
+                     </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+         </table>
       </div>
    </div>
 

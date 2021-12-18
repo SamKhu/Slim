@@ -1,8 +1,8 @@
 from slim import app, db
 from flask import render_template, redirect, url_for, flash, request
 from slim.models import Item, User
-from slim.forms import RegisterForm, LoginForm, PurchaseItemForm
-from flask_login import login_user, logout_user, login_required
+from slim.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route("/")
 @app.route("/home")
@@ -14,14 +14,39 @@ def home_page():
 def aboutus_page():
     return render_template("aboutus.html")
 
-@app.route("/market", methods=['GET', 'POST'])
+@app.route("/market", methods=["GET", "POST"])
 @login_required
 def market_page():
     purchase_form=PurchaseItemForm()
-    if purchase_form.validate_on_submit():
-        print(request.form.get('purchased_item'))
-    items = Item.query.all()
-    return render_template("market.html", items=items, purchase_form=purchase_form)
+    selling_form=SellItemForm()
+    if request.method == "POST":
+        print('post ' * 20)
+        purchased_item = request.form.get('purchased_item')
+        p_item_object = Item.query.filter_by(name=purchased_item).first()
+        if p_item_object:
+            p_item_object.owner = current_user.id
+            db.session.commit()
+            flash(f'Вы приобрели программу {p_item_object.name} за {p_item_object.price} руб!')
+            print(p_item_object.owner)
+
+
+        sold_item = request.form.get('sold_item')
+        s_item_object = Item.query.filter_by(name=sold_item).first()
+        if s_item_object:
+            s_item_object.owner = None
+            db.session.commit()
+            flash(f'Вы вернули программу {s_item_object.name} за {s_item_object.price} руб. обратно в магазин')
+        return redirect(url_for('market_page'))
+
+    if request.method == "GET":
+        print('*'*60)
+
+        items = Item.query.filter_by(owner=None)
+        owned_items = Item.query.filter_by(owner=current_user.id)
+        return render_template("market.html", items= items, owned_items=owned_items,
+                               purchase_form=purchase_form, selling_form=selling_form)
+
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register_page():

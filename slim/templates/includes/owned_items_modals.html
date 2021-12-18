@@ -1,0 +1,34 @@
+<div class="modal fade" id="Modal-SellingConfirm-{{ owned_item.id }}"
+     tabindex="-1"
+     aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel"> {{ owned_item.name }} </h5>
+        <button type="button" class="btn-close"
+                data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          {{ selling_form.hidden_tag() }}
+          <h4 class="text-center">
+            Хотите вернуть программу {{ owned_item.name }}  по цене {{ owned_item.price }}?
+          </h4>
+          <br>
+          <h6 class="text-center">
+            Нажав на кнопку произведёте возврат
+          </h6>
+          <br>
+          <div class="d-grid gap-2">
+            <input id="sold_item" name="sold_item" type="hidden" value="{{ owned_item.name }}">
+            {{ selling_form.submit(class="btn btn-danger") }}
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary"
+                data-bs-dismiss="modal">Закрыть
+        </button>
+      </div>
